@@ -4,21 +4,34 @@ import morgan from "morgan"
 import cors from "cors"
 
 export const app = express();
+const router = express.Router();
 
 app.disable('x-powered-by')
 
-app.use(cors())//allow cross domain resource sharing
-app.use(json())//format request data
-app.use(urlencoded({extended: true}))//attache parameters to url like query string like question mark
-app.use(morgan('dev'))//loggin in console
+app.use(cors())
+app.use(json())
+app.use(urlencoded({extended: true}))
+app.use(morgan('dev'))
 
-const log = (req, res, next) => {//middleware
+const log = (req, res, next) => {
     console.log("logging");
-    next();//next when called execute the next function after it
+    next();
 }
+
+router.route("/cat")
+    .get()
+    .post()
+
+router.route("/cat/:id")
+    .get()
+    .put()
+    .delete()
 
 app.get('/data',log, (req, res) =>{
     res.send({data: [1,2,3]});
+});
+
+app.put('/data',log, (req, res) =>{
 });
 
 app.post('/data',(req, res) =>{
@@ -26,6 +39,8 @@ app.post('/data',(req, res) =>{
     res.send({ok: true});
 });
 
+app.delete('/data',log, (req, res) =>{
+});
 
 export const start = () => {
     app.listen(3000, () => {
